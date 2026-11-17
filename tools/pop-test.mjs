@@ -1,0 +1,13 @@
+import puppeteer from 'puppeteer-core';
+const W = +(process.argv[2] || 1280), H = +(process.argv[3] || 720);
+const browser = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: 'new', args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', `--window-size=${W},${H}`] });
+const page = await browser.newPage(); await page.setViewport({ width: W, height: H });
+page.on('pageerror', (e) => console.log('[pageerror]', e.message.slice(0, 300)));
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+await page.goto('http://localhost:5173/', { waitUntil: 'load' }); await wait(8000);
+const shot = (n) => page.screenshot({ path: `pop_${n}.png` });
+await shot('title');
+const open = async (n, sel) => { await page.evaluate((s) => { document.querySelector(s).click(); }, sel); await wait(700); await shot(n); await page.evaluate(() => { const s = document.getElementById('sheet'); if (!s.classList.contains('hidden')) { const c = s.querySelector('[data-act=close]'); c ? c.click() : window.__closeSheet && window.__closeSheet(); } }); await wait(300); };
+await open('shop', '#dkShop'); await open('daily', '#dkDaily'); await open('settings', '#dkSettings');
+await page.evaluate(() => window.__ui.failed(window.__game, 'trap')); await wait(600); await shot('fail');
+await browser.close();

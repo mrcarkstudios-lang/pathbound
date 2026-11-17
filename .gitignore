@@ -1,0 +1,14 @@
+node_modules
+dist
+
+# secrets / local / large
+*.jks
+*.keystore
+keystore.properties
+local.properties
+*.zip
+vite.log
+android/app/build/
+android/build/
+android/.gradle/
+android/capacitor-cordova-android-plugins/build/

@@ -1,0 +1,10 @@
+{
+  "appId": "com.pathbound.gameics",
+  "appName": "PATHBOUND",
+  "webDir": "dist",
+  "backgroundColor": "#150b33",
+  "server": { "androidScheme": "https" },
+  "plugins": {
+    "SplashScreen": { "launchShowDuration": 0 }
+  }
+}
